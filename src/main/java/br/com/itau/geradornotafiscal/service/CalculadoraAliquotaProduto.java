@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalculadoraAliquotaProduto {
-    private static List<ItemNotaFiscal> itemNotaFiscalList = new ArrayList<>();
 
     public List<ItemNotaFiscal> calcularAliquota(List<Item> items, double aliquotaPercentual) {
+
+        //alterado para ser uma variavel de metodo, para instanciar a variavel toda execucao de metodo
+
+        List<ItemNotaFiscal> itemNotaFiscalList = new ArrayList<>();
 
         for (Item item : items) {
             double valorTributo = item.getValorUnitario() * aliquotaPercentual;

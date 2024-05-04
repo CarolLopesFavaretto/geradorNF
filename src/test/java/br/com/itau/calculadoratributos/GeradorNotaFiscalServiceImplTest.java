@@ -33,7 +33,7 @@ public class GeradorNotaFiscalServiceImplTest {
 
 
     @Test
-    public void shouldGenerateNotaFiscalForTipoPessoaFisicaWithValorTotalItensLessThan500() {
+    public void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMenorQue500() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(400);
         pedido.setValorFrete(100);
@@ -62,7 +62,7 @@ public class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    public void shouldGenerateNotaFiscalForTipoPessoaJuridicaWithRegimeTributacaoLucroPresumidoAndValorTotalItensGreaterThan5000() {
+    public void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMaiorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(6000);
         pedido.setValorFrete(100);
