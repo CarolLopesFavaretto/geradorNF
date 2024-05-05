@@ -20,7 +20,7 @@ public class GeradorNFController {
 	private GeradorNotaFiscalService notaFiscalService;
 
 	@PostMapping("/gerarNotaFiscal")
-	public ResponseEntity<NotaFiscal> gerarNotaFiscal(@RequestBody Pedido pedido) {
+	public ResponseEntity<NotaFiscal> gerarNotaFiscal(@RequestBody Pedido pedido) throws IllegalAccessException {
 		// Lógica de processamento do pedido
 		// Aqui você pode realizar as operações desejadas com o objeto Pedido
 

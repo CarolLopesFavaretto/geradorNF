@@ -11,120 +11,70 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService{
-	@Override
-	public NotaFiscal gerarNotaFiscal(Pedido pedido) {
+public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
+    @Override
+    public NotaFiscal gerarNotaFiscal(Pedido pedido) throws IllegalAccessException {
 
-		Destinatario destinatario = pedido.getDestinatario();
-		TipoPessoa tipoPessoa = destinatario.getTipoPessoa();
-		List<ItemNotaFiscal> itemNotaFiscalList = new ArrayList<>();
+        Destinatario destinatario = pedido.getDestinatario();
+        TipoPessoa tipoPessoa = destinatario.getTipoPessoa();
+        List<ItemNotaFiscal> itemNotaFiscalList;
 
+        CalculadoraAliquotaProduto calculadoraAliquotaProduto = new CalculadoraAliquotaProduto();
+        GeradorNF geradorNf = getGeradorNFPorTipoPessoa(tipoPessoa);
 
-		CalculadoraAliquotaProduto calculadoraAliquotaProduto = new CalculadoraAliquotaProduto();
+        itemNotaFiscalList = geradorNf.calcularNF(pedido, calculadoraAliquotaProduto);
 
-		if (tipoPessoa == TipoPessoa.FISICA) {
-			double valorTotalItens = pedido.getValorTotalItens();
-			double aliquota;
+        //Regras diferentes para frete
 
-			if (valorTotalItens < 500) {
-				aliquota = 0;
-			} else if (valorTotalItens <= 2000) {
-				aliquota = 0.12;
-			} else if (valorTotalItens <= 3500) {
-				aliquota = 0.15;
-			} else {
-				aliquota = 0.17;
-			}
-			itemNotaFiscalList = calculadoraAliquotaProduto.calcularAliquota(pedido.getItens(), aliquota);
-		} else if (tipoPessoa == TipoPessoa.JURIDICA) {
+        Regiao regiao = destinatario.getEnderecos().stream()
+                .filter(endereco -> endereco.getFinalidade() == Finalidade.ENTREGA || endereco.getFinalidade() == Finalidade.COBRANCA_ENTREGA)
+                .map(Endereco::getRegiao)
+                .findFirst()
+                .orElse(null);
 
-			RegimeTributacaoPJ regimeTributacao = destinatario.getRegimeTributacao();
+        double valorFrete = pedido.getValorFrete();
+        double valorFreteComPercentual = 0;
 
-			if (regimeTributacao == RegimeTributacaoPJ.SIMPLES_NACIONAL) {
+        if (regiao == Regiao.NORTE) {
+            valorFreteComPercentual = valorFrete * 1.08;
+        } else if (regiao == Regiao.NORDESTE) {
+            valorFreteComPercentual = valorFrete * 1.085;
+        } else if (regiao == Regiao.CENTRO_OESTE) {
+            valorFreteComPercentual = valorFrete * 1.07;
+        } else if (regiao == Regiao.SUDESTE) {
+            valorFreteComPercentual = valorFrete * 1.048;
+        } else if (regiao == Regiao.SUL) {
+            valorFreteComPercentual = valorFrete * 1.06;
+        }
 
-				double valorTotalItens = pedido.getValorTotalItens();
-				double aliquota;
+        // Create the NotaFiscal object
+        String idNotaFiscal = UUID.randomUUID().toString();
 
-				if (valorTotalItens < 1000) {
-					aliquota = 0.03;
-				} else if (valorTotalItens <= 2000) {
-					aliquota = 0.07;
-				} else if (valorTotalItens <= 5000) {
-					aliquota = 0.13;
-				} else {
-					aliquota = 0.19;
-				}
-				itemNotaFiscalList = calculadoraAliquotaProduto.calcularAliquota(pedido.getItens(), aliquota);
-			} else if (regimeTributacao == RegimeTributacaoPJ.LUCRO_REAL) {
-				double valorTotalItens = pedido.getValorTotalItens();
-				double aliquota;
+        NotaFiscal notaFiscal = NotaFiscal.builder()
+                .idNotaFiscal(idNotaFiscal)
+                .data(LocalDateTime.now())
+                .valorTotalItens(pedido.getValorTotalItens())
+                .valorFrete(valorFreteComPercentual)
+                .itens(itemNotaFiscalList)
+                .destinatario(pedido.getDestinatario())
+                .build();
 
-				if (valorTotalItens < 1000) {
-					aliquota = 0.03;
-				} else if (valorTotalItens <= 2000) {
-					aliquota = 0.09;
-				} else if (valorTotalItens <= 5000) {
-					aliquota = 0.15;
-				} else {
-					aliquota = 0.20;
-				}
-				itemNotaFiscalList= calculadoraAliquotaProduto.calcularAliquota(pedido.getItens(),aliquota);
-			} else if (regimeTributacao == RegimeTributacaoPJ.LUCRO_PRESUMIDO) {
-				double valorTotalItens = pedido.getValorTotalItens();
-				double aliquota;
+        new EstoqueService().enviarNotaFiscalParaBaixaEstoque(notaFiscal);
+        new RegistroService().registrarNotaFiscal(notaFiscal);
+        new EntregaService().agendarEntrega(notaFiscal);
+        new FinanceiroService().enviarNotaFiscalParaContasReceber(notaFiscal);
 
-				if (valorTotalItens < 1000) {
-					aliquota = 0.03;
-				} else if (valorTotalItens <= 2000) {
-					aliquota = 0.09;
-				} else if (valorTotalItens <= 5000) {
-					aliquota = 0.16;
-				} else {
-					aliquota = 0.20;
-				}
-				itemNotaFiscalList = calculadoraAliquotaProduto.calcularAliquota(pedido.getItens(),aliquota);
-			}
-		}
-		//Regras diferentes para frete
+        return notaFiscal;
+    }
 
-		Regiao regiao = destinatario.getEnderecos().stream()
-				.filter(endereco -> endereco.getFinalidade() == Finalidade.ENTREGA || endereco.getFinalidade() == Finalidade.COBRANCA_ENTREGA)
-				.map(Endereco::getRegiao)
-				.findFirst()
-				.orElse(null);
-
-		double valorFrete = pedido.getValorFrete();
-		double valorFreteComPercentual =0;
-
-		if (regiao == Regiao.NORTE) {
-			valorFreteComPercentual = valorFrete * 1.08;
-		} else if (regiao == Regiao.NORDESTE) {
-			valorFreteComPercentual = valorFrete * 1.085;
-		} else if (regiao == Regiao.CENTRO_OESTE) {
-			valorFreteComPercentual = valorFrete * 1.07;
-		} else if (regiao == Regiao.SUDESTE) {
-			valorFreteComPercentual = valorFrete * 1.048;
-		} else if (regiao == Regiao.SUL) {
-			valorFreteComPercentual = valorFrete * 1.06;
-		}
-
-		// Create the NotaFiscal object
-		String idNotaFiscal = UUID.randomUUID().toString();
-
-		NotaFiscal notaFiscal = NotaFiscal.builder()
-				.idNotaFiscal(idNotaFiscal)
-				.data(LocalDateTime.now())
-				.valorTotalItens(pedido.getValorTotalItens())
-				.valorFrete(valorFreteComPercentual)
-				.itens(itemNotaFiscalList)
-				.destinatario(pedido.getDestinatario())
-				.build();
-
-		new EstoqueService().enviarNotaFiscalParaBaixaEstoque(notaFiscal);
-		new RegistroService().registrarNotaFiscal(notaFiscal);
-		new EntregaService().agendarEntrega(notaFiscal);
-		new FinanceiroService().enviarNotaFiscalParaContasReceber(notaFiscal);
-
-		return notaFiscal;
-	}
+    private GeradorNF getGeradorNFPorTipoPessoa(TipoPessoa tipoPessoa) throws IllegalAccessException {
+        switch (tipoPessoa) {
+            case FISICA:
+                return new GerarNFPessoaFisica();
+            case JURIDICA:
+                return new GerarNFPessoaJuridica();
+            default:
+                throw new IllegalAccessException("Tipo invalido");
+        }
+    }
 }

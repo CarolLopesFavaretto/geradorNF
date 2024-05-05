@@ -2,6 +2,7 @@ package br.com.itau.geradornotafiscal.service;
 
 import br.com.itau.geradornotafiscal.model.Item;
 import br.com.itau.geradornotafiscal.model.ItemNotaFiscal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,6 @@ public class CalculadoraAliquotaProduto {
     public List<ItemNotaFiscal> calcularAliquota(List<Item> items, double aliquotaPercentual) {
 
         //alterado para ser uma variavel de metodo, para instanciar a variavel toda execucao de metodo
-
         List<ItemNotaFiscal> itemNotaFiscalList = new ArrayList<>();
 
         for (Item item : items) {

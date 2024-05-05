@@ -9,15 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
-public class GeradorNotaFiscalServiceImplTest {
+class GeradorNotaFiscalServiceImplTest {
 
     @InjectMocks
     private GeradorNotaFiscalServiceImpl geradorNotaFiscalService;
@@ -30,10 +26,8 @@ public class GeradorNotaFiscalServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
-
     @Test
-    public void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMenorQue500() {
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMenorQue500() throws IllegalAccessException {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(400);
         pedido.setValorFrete(100);
@@ -62,7 +56,8 @@ public class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    public void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMaiorQue5000() {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMaiorQue5000()
+            throws IllegalAccessException {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(6000);
         pedido.setValorFrete(100);
