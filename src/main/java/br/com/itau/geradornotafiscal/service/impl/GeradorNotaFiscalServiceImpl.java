@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -23,8 +24,7 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
 
         itemNotaFiscalList = geradorNf.calcularNF(pedido, calculadoraAliquotaProduto);
 
-        //Regras diferentes para frete
-
+        //Regras para frete
         Regiao regiao = destinatario.getEnderecos().stream()
                 .filter(endereco -> endereco.getFinalidade() == Finalidade.ENTREGA || endereco.getFinalidade() == Finalidade.COBRANCA_ENTREGA)
                 .map(Endereco::getRegiao)
@@ -34,16 +34,10 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
         double valorFrete = pedido.getValorFrete();
         double valorFreteComPercentual = 0;
 
-        if (regiao == Regiao.NORTE) {
-            valorFreteComPercentual = valorFrete * 1.08;
-        } else if (regiao == Regiao.NORDESTE) {
-            valorFreteComPercentual = valorFrete * 1.085;
-        } else if (regiao == Regiao.CENTRO_OESTE) {
-            valorFreteComPercentual = valorFrete * 1.07;
-        } else if (regiao == Regiao.SUDESTE) {
-            valorFreteComPercentual = valorFrete * 1.048;
-        } else if (regiao == Regiao.SUL) {
-            valorFreteComPercentual = valorFrete * 1.06;
+        //sera que realmente devemos proceguir com a emissao da nf, sendo que nao temos um endereco valido?
+
+        if (Objects.nonNull(regiao)) {
+            valorFreteComPercentual = regiao.getValorFreteComPercentual(valorFrete);
         }
 
         // Create the NotaFiscal object

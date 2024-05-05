@@ -34,7 +34,7 @@ class GeradorNotaFiscalServiceImplTest {
         // Create and add Endereco to the Destinatario
         Endereco endereco = new Endereco();
         endereco.setFinalidade(Finalidade.ENTREGA);
-        endereco.setRegiao(Regiao.SUDESTE);
+        endereco.setRegiao(Regiao.NORTE);
         destinatario.setEnderecos(Arrays.asList(endereco));
 
         pedido.setDestinatario(destinatario);
@@ -50,6 +50,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0, notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.08 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
     @Test
@@ -62,7 +63,7 @@ class GeradorNotaFiscalServiceImplTest {
 
         // Create and add Endereco to the Destinatario
         Endereco endereco = new Endereco();
-        endereco.setFinalidade(Finalidade.OUTROS);
+        endereco.setFinalidade(Finalidade.COBRANCA_ENTREGA);
         endereco.setRegiao(Regiao.CENTRO_OESTE);
         destinatario.setEnderecos(Arrays.asList(endereco));
 
@@ -79,6 +80,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.17 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.07 * pedido.getValorFrete() , notaFiscal.getValorFrete());
     }
 
     @Test
@@ -110,6 +112,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.20 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.048 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
     @Test
@@ -141,6 +144,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.03 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.048 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
     @Test
@@ -172,6 +176,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.19 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.085 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
     @Test
@@ -203,6 +208,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.07 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.08 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
     @Test
@@ -217,7 +223,7 @@ class GeradorNotaFiscalServiceImplTest {
 
         // Create and add Endereco to the Destinatario
         Endereco endereco = new Endereco();
-        endereco.setFinalidade(Finalidade.OUTROS);
+        endereco.setFinalidade(Finalidade.COBRANCA_ENTREGA);
         endereco.setRegiao(Regiao.NORDESTE);
         destinatario.setEnderecos(Arrays.asList(endereco));
 
@@ -234,6 +240,8 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.20 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.085 * pedido.getValorFrete(), notaFiscal.getValorFrete());
+
     }
 
     @Test
@@ -265,6 +273,7 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.15 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(1.085 * pedido.getValorFrete(), notaFiscal.getValorFrete());
     }
 
 }
