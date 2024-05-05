@@ -6,7 +6,6 @@ import java.util.List;
 
 public class GerarNFPessoaFisica extends GeradorNF {
 
-
     @Override
     public List<ItemNotaFiscal> calcularNF(Pedido pedido,
                                            CalculadoraAliquotaProduto calculadoraAliquotaProduto) {
