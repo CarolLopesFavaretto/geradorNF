@@ -18,9 +18,6 @@ class GeradorNotaFiscalServiceImplTest {
     @InjectMocks
     private GeradorNotaFiscalServiceImpl geradorNotaFiscalService;
 
-    @Mock
-    private CalculadoraAliquotaProduto calculadoraAliquotaProduto;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
