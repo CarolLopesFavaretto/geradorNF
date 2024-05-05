@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "7ce22463-8b8e-48f0-bfe5-3bcfc904f994",
+		"name": "GeradorNF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16789706"
+	},
+	"item": [
+		{
+			"name": "Pessoa Fisica - Mais de 5 itens",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_pedido\": 1,\n  \"data\": \"2022-05-01\",\n  \"valor_total_itens\": 16000.0,\n  \"valor_frete\": 10.0,\n  \"itens\": [\n    {\n      \"id_item\": 1,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 2,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 3,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 4,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 5,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 6,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 7,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    },\n    {\n      \"id_item\": 8,\n      \"descricao\": \"Teclado USB\",\n      \"valor_unitario\": 2000,\n      \"quantidade\": 2\n    }\n  ],\n  \"destinatario\": {\n    \"nome\": \"John Doe\",\n    \"tipo_pessoa\": \"FISICA\",\n    \"documentos\": [\n      {\n        \"tipo\": \"CPF\",\n        \"numero\": \"88740347095\"\n      }\n    ],\n    \"enderecos\": [\n      {\n        \"logradouro\": \"Av do estado\",\n        \"numero\": \"5533\",\n        \"complemento\": \"4 anndar b\",\n        \"bairro\": \"Mooca\",\n        \"cidade\": \"São Paulo\",\n        \"estado\": \"SP\",\n        \"pais\": \"Brasil\",\n        \"cep\": \"03105003\",\n        \"finalidade\": \"ENTREGA\",\n        \"regiao\": \"NORTE\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/gerarNotaFiscal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"gerarNotaFiscal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ - lucro real",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_pedido\": 1,\n  \"data\": \"2022-05-01\",\n  \"valor_total_itens\": 5840.0,\n  \"valor_frete\": 72.0,\n  \"itens\": [\n    {\n      \"id_item\": 1,\n      \"descricao\": \"Monitor LCD SAMSUNG\",\n      \"valor_unitario\": 730,\n      \"quantidade\": 8\n    }\n  ],\n  \"destinatario\": {\n    \"nome\": \"John Doe\",\n    \"tipo_pessoa\": \"JURIDICA\",\n    \"regime_tributacao\": \"LUCRO_REAL\",\n    \"documentos\": [\n      {\n        \"tipo\": \"CNPJ\",\n        \"numero\": \"49695613000180\"\n      }\n    ],\n    \"enderecos\": [\n      {\n        \"logradouro\": \"Av do estado\",\n        \"numero\": \"5533\",\n        \"complemento\": \"4 anndar b\",\n        \"bairro\": \"Mooca\",\n        \"cidade\": \"São Paulo\",\n        \"estado\": \"SP\",\n        \"pais\": \"Brasil\",\n        \"cep\": \"03105003\",\n        \"finalidade\": \"ENTREGA\",\n        \"regiao\": \"SUDESTE\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/gerarNotaFiscal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"gerarNotaFiscal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ - simples",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_pedido\": 1,\n  \"data\": \"2022-05-01\",\n  \"valor_total_itens\": 5840.0,\n  \"valor_frete\": 72.0,\n  \"itens\": [\n    {\n      \"id_item\": 1,\n      \"descricao\": \"Monitor LCD SAMSUNG\",\n      \"valor_unitario\": 730,\n      \"quantidade\": 8\n    }\n  ],\n  \"destinatario\": {\n    \"nome\": \"John Doe\",\n    \"tipo_pessoa\": \"JURIDICA\",\n    \"regime_tributacao\": \"SIMPLES_NACIONAL\",\n    \"documentos\": [\n      {\n        \"tipo\": \"CNPJ\",\n        \"numero\": \"49695613000180\"\n      }\n    ],\n    \"enderecos\": [\n      {\n        \"logradouro\": \"Av do estado\",\n        \"numero\": \"5533\",\n        \"complemento\": \"4 anndar b\",\n        \"bairro\": \"Mooca\",\n        \"cidade\": \"São Paulo\",\n        \"estado\": \"SP\",\n        \"pais\": \"Brasil\",\n        \"cep\": \"03105003\",\n        \"finalidade\": \"ENTREGA\",\n        \"regiao\": \"SUDESTE\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/gerarNotaFiscal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"gerarNotaFiscal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ - lucro presumido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_pedido\": 1,\n  \"data\": \"2022-05-01\",\n  \"valor_total_itens\": 5840.0,\n  \"valor_frete\": 72.0,\n  \"itens\": [\n    {\n      \"id_item\": 1,\n      \"descricao\": \"Monitor LCD SAMSUNG\",\n      \"valor_unitario\": 730,\n      \"quantidade\": 8\n    }\n  ],\n  \"destinatario\": {\n    \"nome\": \"John Doe\",\n    \"tipo_pessoa\": \"JURIDICA\",\n    \"regime_tributacao\": \"LUCRO_PRESUMIDO\",\n    \"documentos\": [\n      {\n        \"tipo\": \"CNPJ\",\n        \"numero\": \"49695613000180\"\n      }\n    ],\n    \"enderecos\": [\n      {\n        \"logradouro\": \"Av do estado\",\n        \"numero\": \"5533\",\n        \"complemento\": \"4 anndar b\",\n        \"bairro\": \"Mooca\",\n        \"cidade\": \"São Paulo\",\n        \"estado\": \"SP\",\n        \"pais\": \"Brasil\",\n        \"cep\": \"03105003\",\n        \"finalidade\": \"ENTREGA\",\n        \"regiao\": \"SUDESTE\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/gerarNotaFiscal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"gerarNotaFiscal"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
