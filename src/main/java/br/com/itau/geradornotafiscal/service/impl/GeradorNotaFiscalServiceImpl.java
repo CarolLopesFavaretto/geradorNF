@@ -1,6 +1,9 @@
 package br.com.itau.geradornotafiscal.service.impl;
 
 import br.com.itau.geradornotafiscal.model.*;
+import br.com.itau.geradornotafiscal.model.enums.Finalidade;
+import br.com.itau.geradornotafiscal.model.enums.Regiao;
+import br.com.itau.geradornotafiscal.model.enums.TipoPessoa;
 import br.com.itau.geradornotafiscal.service.CalculadoraAliquotaProduto;
 import br.com.itau.geradornotafiscal.service.GeradorNotaFiscalService;
 import org.springframework.stereotype.Service;
@@ -42,7 +45,6 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
 
         // Create the NotaFiscal object
         String idNotaFiscal = UUID.randomUUID().toString();
-
         NotaFiscal notaFiscal = NotaFiscal.builder()
                 .idNotaFiscal(idNotaFiscal)
                 .data(LocalDateTime.now())

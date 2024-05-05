@@ -1,12 +1,14 @@
-package br.com.itau.calculadoratributos;
+package br.com.itau.calculadoratributos.service;
 
 import br.com.itau.geradornotafiscal.model.*;
-import br.com.itau.geradornotafiscal.service.CalculadoraAliquotaProduto;
+import br.com.itau.geradornotafiscal.model.enums.Finalidade;
+import br.com.itau.geradornotafiscal.model.enums.Regiao;
+import br.com.itau.geradornotafiscal.model.enums.RegimeTributacaoPJ;
+import br.com.itau.geradornotafiscal.model.enums.TipoPessoa;
 import br.com.itau.geradornotafiscal.service.impl.GeradorNotaFiscalServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;

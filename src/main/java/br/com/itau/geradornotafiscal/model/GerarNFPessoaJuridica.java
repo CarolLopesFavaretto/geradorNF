@@ -1,5 +1,6 @@
 package br.com.itau.geradornotafiscal.model;
 
+import br.com.itau.geradornotafiscal.model.enums.RegimeTributacaoPJ;
 import br.com.itau.geradornotafiscal.service.CalculadoraAliquotaProduto;
 
 import java.util.List;

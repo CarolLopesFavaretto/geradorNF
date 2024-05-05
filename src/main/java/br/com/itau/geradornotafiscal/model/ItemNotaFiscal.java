@@ -2,9 +2,7 @@ package br.com.itau.geradornotafiscal.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
