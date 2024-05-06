@@ -1,11 +1,11 @@
 package br.com.itau.calculadoratributos.service;
 
-import br.com.itau.geradornotafiscal.model.*;
-import br.com.itau.geradornotafiscal.model.enums.Finalidade;
-import br.com.itau.geradornotafiscal.model.enums.Regiao;
-import br.com.itau.geradornotafiscal.model.enums.RegimeTributacaoPJ;
-import br.com.itau.geradornotafiscal.model.enums.TipoPessoa;
-import br.com.itau.geradornotafiscal.service.impl.GeradorNotaFiscalServiceImpl;
+import br.com.itau.geradornotafiscal.domain.model.*;
+import br.com.itau.geradornotafiscal.domain.model.enums.Finalidade;
+import br.com.itau.geradornotafiscal.domain.model.enums.Regiao;
+import br.com.itau.geradornotafiscal.domain.model.enums.RegimeTributacaoPJ;
+import br.com.itau.geradornotafiscal.domain.model.enums.TipoPessoa;
+import br.com.itau.geradornotafiscal.aplication.service.GeradorNotaFiscalServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
