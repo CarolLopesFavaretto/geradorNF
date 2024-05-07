@@ -1,4 +1,4 @@
-package br.com.itau.calculadoratributos.service;
+package br.com.itau.geradornotafiscal.service;
 
 import br.com.itau.geradornotafiscal.domain.model.Item;
 import br.com.itau.geradornotafiscal.domain.model.ItemNotaFiscal;

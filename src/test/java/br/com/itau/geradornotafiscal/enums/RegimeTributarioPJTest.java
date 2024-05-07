@@ -1,4 +1,4 @@
-package br.com.itau.calculadoratributos.enums;
+package br.com.itau.geradornotafiscal.enums;
 
 import br.com.itau.geradornotafiscal.domain.model.Destinatario;
 import br.com.itau.geradornotafiscal.domain.model.enums.RegimeTributacaoPJ;
