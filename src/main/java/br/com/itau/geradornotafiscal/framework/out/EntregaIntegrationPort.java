@@ -6,6 +6,8 @@ import br.com.itau.geradornotafiscal.domain.model.NotaFiscal;
 public class EntregaIntegrationPort {
     public void criarAgendamentoEntrega(NotaFiscal notaFiscal) {
 
+//        TODO - sugestao de implementacao de um servico assincrono;
+
         try {
             //Simula o agendamento da entrega
             if (notaFiscal.getItens().size() > 5) {

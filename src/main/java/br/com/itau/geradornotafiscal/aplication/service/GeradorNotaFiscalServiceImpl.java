@@ -13,6 +13,8 @@ import br.com.itau.geradornotafiscal.domain.model.usecase.GeradorNF;
 import br.com.itau.geradornotafiscal.domain.model.usecase.GerarNFPessoaFisica;
 import br.com.itau.geradornotafiscal.domain.model.usecase.GerarNFPessoaJuridica;
 import br.com.itau.geradornotafiscal.framework.exceptions.TipoPessoaInvalidoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,8 @@ import java.util.UUID;
 
 @Service
 public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
+
+    Logger logger = LoggerFactory.getLogger(GeradorNotaFiscalServiceImpl.class);
     @Override
     public NotaFiscal gerarNotaFiscal(Pedido pedido) {
 
@@ -34,7 +38,8 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
 
         itemNotaFiscalList = geradorNf.calcularNF(pedido, calculadoraAliquotaProduto);
 
-        //Regras para frete
+
+        logger.debug("validando a finalidade do endereco");
         Regiao regiao = destinatario.getEnderecos().stream()
                 .filter(endereco -> endereco.getFinalidade() == Finalidade.ENTREGA || endereco.getFinalidade() == Finalidade.COBRANCA_ENTREGA)
                 .map(Endereco::getRegiao)
@@ -44,13 +49,14 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
         double valorFrete = pedido.getValorFrete();
         double valorFreteComPercentual = 0;
 
-        //sera que realmente devemos proceguir com a emissao da nf, sendo que nao temos um endereco valido?
+        //sera que realmente devemos proseguir com a emissao da nf, sendo que nao temos um endereco valido?
+        //        TODO - implementacao mais refinada de regra para a funcionalidade frete
 
         if (Objects.nonNull(regiao)) {
             valorFreteComPercentual = regiao.getValorFreteComPercentual(valorFrete);
         }
 
-        // Create the NotaFiscal object
+        logger.debug("criando Nota fiscal");
         String idNotaFiscal = UUID.randomUUID().toString();
         NotaFiscal notaFiscal = NotaFiscal.builder()
                 .idNotaFiscal(idNotaFiscal)

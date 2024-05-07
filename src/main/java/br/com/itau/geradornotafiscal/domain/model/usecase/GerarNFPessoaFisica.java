@@ -1,16 +1,15 @@
 package br.com.itau.geradornotafiscal.domain.model.usecase;
 
+import br.com.itau.geradornotafiscal.aplication.service.CalculadoraAliquotaProduto;
 import br.com.itau.geradornotafiscal.domain.model.ItemNotaFiscal;
 import br.com.itau.geradornotafiscal.domain.model.Pedido;
-import br.com.itau.geradornotafiscal.aplication.service.CalculadoraAliquotaProduto;
 
 import java.util.List;
 
 public class GerarNFPessoaFisica extends GeradorNF {
 
     @Override
-    public List<ItemNotaFiscal> calcularNF(Pedido pedido,
-                                           CalculadoraAliquotaProduto calculadoraAliquotaProduto) {
+    public List<ItemNotaFiscal> calcularNF(Pedido pedido, CalculadoraAliquotaProduto calculadoraAliquotaProduto) {
 
         double valorTotalItens = pedido.getValorTotalItens();
         double aliquota;
@@ -24,7 +23,6 @@ public class GerarNFPessoaFisica extends GeradorNF {
         } else {
             aliquota = 0.17;
         }
-
         return calculadoraAliquotaProduto.calcularAliquota(pedido.getItens(), aliquota);
     }
 }

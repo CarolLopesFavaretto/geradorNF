@@ -3,6 +3,8 @@ package br.com.itau.geradornotafiscal.aplication.port.out;
 import br.com.itau.geradornotafiscal.domain.model.NotaFiscal;
 
 public class FinanceiroService {
+
+    //        TODO - sugestao de implementacao de um servico assincrono;
     public void enviarNotaFiscalParaContasReceber(NotaFiscal notaFiscal) {
 
         try {

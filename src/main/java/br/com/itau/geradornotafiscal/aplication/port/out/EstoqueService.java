@@ -4,6 +4,8 @@ package br.com.itau.geradornotafiscal.aplication.port.out;
 import br.com.itau.geradornotafiscal.domain.model.NotaFiscal;
 
 public class EstoqueService {
+
+    //        TODO - sugestao de implementacao de um servico assincrono;
     public void enviarNotaFiscalParaBaixaEstoque(NotaFiscal notaFiscal) {
         try {
             //Simula envio de nota fiscal para baixa de estoque

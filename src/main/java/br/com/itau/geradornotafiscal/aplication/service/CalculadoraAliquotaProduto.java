@@ -10,7 +10,7 @@ public class CalculadoraAliquotaProduto {
 
     public List<ItemNotaFiscal> calcularAliquota(List<Item> items, double aliquotaPercentual) {
 
-        //alterado para ser uma variavel de metodo, para instanciar a variavel toda execucao de metodo
+        //alterado para ser uma variavel nivel de metodo, para instanciar a variavel toda execucao do metodo
         List<ItemNotaFiscal> itemNotaFiscalList = new ArrayList<>();
 
         for (Item item : items) {

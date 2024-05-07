@@ -13,6 +13,8 @@ import java.util.Date;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
+    //adicionado classe de handler para melhor tratativa de erros
+
     @ExceptionHandler(TipoPessoaInvalidoException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage tipoPessoaInvalidoException(TipoPessoaInvalidoException ex, WebRequest request) {

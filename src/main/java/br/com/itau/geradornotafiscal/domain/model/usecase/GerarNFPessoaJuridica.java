@@ -19,6 +19,7 @@ public class GerarNFPessoaJuridica extends GeradorNF {
                                            CalculadoraAliquotaProduto calculadoraAliquotaProduto) {
         RegimeTributacaoPJ regimeTributacao = pedido.getDestinatario().getRegimeTributacao();
 
+        logger.debug("calculo pessoa juridica de acordo com o regime tributario");
         GerarNFPessoaJuridica regime = getGeradorNFPorRegime(regimeTributacao);
         return regime.calcularNF(pedido, calculadoraAliquotaProduto);
     }
