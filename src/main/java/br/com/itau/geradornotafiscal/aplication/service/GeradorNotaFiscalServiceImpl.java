@@ -1,5 +1,10 @@
 package br.com.itau.geradornotafiscal.aplication.service;
 
+import br.com.itau.geradornotafiscal.aplication.port.in.GeradorNotaFiscalService;
+import br.com.itau.geradornotafiscal.aplication.port.out.EntregaService;
+import br.com.itau.geradornotafiscal.aplication.port.out.EstoqueService;
+import br.com.itau.geradornotafiscal.aplication.port.out.FinanceiroService;
+import br.com.itau.geradornotafiscal.aplication.port.out.RegistroService;
 import br.com.itau.geradornotafiscal.domain.model.*;
 import br.com.itau.geradornotafiscal.domain.model.enums.Finalidade;
 import br.com.itau.geradornotafiscal.domain.model.enums.Regiao;
@@ -7,11 +12,6 @@ import br.com.itau.geradornotafiscal.domain.model.enums.TipoPessoa;
 import br.com.itau.geradornotafiscal.domain.model.usecase.GeradorNF;
 import br.com.itau.geradornotafiscal.domain.model.usecase.GerarNFPessoaFisica;
 import br.com.itau.geradornotafiscal.domain.model.usecase.GerarNFPessoaJuridica;
-import br.com.itau.geradornotafiscal.aplication.port.in.GeradorNotaFiscalService;
-import br.com.itau.geradornotafiscal.aplication.port.out.EntregaService;
-import br.com.itau.geradornotafiscal.aplication.port.out.EstoqueService;
-import br.com.itau.geradornotafiscal.aplication.port.out.FinanceiroService;
-import br.com.itau.geradornotafiscal.aplication.port.out.RegistroService;
 import br.com.itau.geradornotafiscal.framework.exceptions.TipoPessoaInvalidoException;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
     @Override
-    public NotaFiscal gerarNotaFiscal(Pedido pedido) throws IllegalAccessException {
+    public NotaFiscal gerarNotaFiscal(Pedido pedido) {
 
         Destinatario destinatario = pedido.getDestinatario();
         TipoPessoa tipoPessoa = destinatario.getTipoPessoa();
@@ -76,7 +76,7 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
             case JURIDICA:
                 return new GerarNFPessoaJuridica();
             default:
-                throw new TipoPessoaInvalidoException("Tipo de pessoa invalido");
+                throw new TipoPessoaInvalidoException("Tipo de pessoa invalido" );
         }
     }
 }

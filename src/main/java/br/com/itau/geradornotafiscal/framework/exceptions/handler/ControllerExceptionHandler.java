@@ -14,28 +14,20 @@ import java.util.Date;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(TipoPessoaInvalidoException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage tipoPessoaInvalidoException(TipoPessoaInvalidoException ex, WebRequest request) {
         return new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(true));
     }
 
-//    @ExceptionHandler(TipoPessoaInvalidoException.class)
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ResponseEntity<String> handleException(TipoPessoaInvalidoException exception,
-//                                                  HttpServletRequest request) {
-//        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
-
-
     @ExceptionHandler(RegimeTributarioInvalidoException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage regimeTributarioInvalidoException(RegimeTributarioInvalidoException ex, WebRequest request) {
         return new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));

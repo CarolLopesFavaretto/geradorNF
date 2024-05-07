@@ -1,11 +1,11 @@
 package br.com.itau.calculadoratributos.service;
 
+import br.com.itau.geradornotafiscal.aplication.service.GeradorNotaFiscalServiceImpl;
 import br.com.itau.geradornotafiscal.domain.model.*;
 import br.com.itau.geradornotafiscal.domain.model.enums.Finalidade;
 import br.com.itau.geradornotafiscal.domain.model.enums.Regiao;
 import br.com.itau.geradornotafiscal.domain.model.enums.RegimeTributacaoPJ;
 import br.com.itau.geradornotafiscal.domain.model.enums.TipoPessoa;
-import br.com.itau.geradornotafiscal.aplication.service.GeradorNotaFiscalServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +26,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMenorQue500() throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMenorQue500() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(400);
         pedido.setValorFrete(100);
@@ -56,7 +56,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensIgualQue2000() throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensIgualQue2000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(2000);
         pedido.setValorFrete(100);
@@ -86,7 +86,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMaiorQue3500() throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensMaiorQue3500() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(4000);
         pedido.setValorFrete(150);
@@ -116,7 +116,37 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensIgualQue3500() throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComFinalidadeCobrancaEFreteZerado() {
+        Pedido pedido = new Pedido();
+        pedido.setValorTotalItens(4000);
+        pedido.setValorFrete(150);
+        Destinatario destinatario = new Destinatario();
+        destinatario.setTipoPessoa(TipoPessoa.FISICA);
+
+        // Create and add Endereco to the Destinatario
+        Endereco endereco = new Endereco();
+        endereco.setFinalidade(Finalidade.COBRANCA);
+        endereco.setRegiao(Regiao.CENTRO_OESTE);
+        destinatario.setEnderecos(Arrays.asList(endereco));
+
+        pedido.setDestinatario(destinatario);
+
+        // Create and add items to the Pedido
+        Item item = new Item();
+        item.setValorUnitario(1000);
+        item.setQuantidade(4);
+        pedido.setItens(Arrays.asList(item));
+
+        NotaFiscal notaFiscal = geradorNotaFiscalService.gerarNotaFiscal(pedido);
+
+        assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
+        assertEquals(1, notaFiscal.getItens().size());
+        assertEquals(0.17 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(0, notaFiscal.getValorFrete());
+    }
+
+    @Test
+    void deveGerarNotaFiscalParaTipoPessoaFisicaComValorTotalItensIgualQue3500() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(3500);
         pedido.setValorFrete(150);
@@ -146,8 +176,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMaiorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMaiorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(6000);
         pedido.setValorFrete(100);
@@ -178,8 +207,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue1000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue1000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(900);
         pedido.setValorFrete(100);
@@ -210,8 +238,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue2000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue2000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(1900);
         pedido.setValorFrete(100);
@@ -242,8 +269,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroPresumidoEValorTotalItensMenorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(4900);
         pedido.setValorFrete(100);
@@ -274,8 +300,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMaiorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMaiorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(8000);
         pedido.setValorFrete(400);
@@ -306,8 +331,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue2000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue2000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(1900);
         pedido.setValorFrete(400);
@@ -338,8 +362,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue1000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue1000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(900);
         pedido.setValorFrete(400);
@@ -370,8 +393,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoSimplesNacionalEValorTotalItensMenorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(4000);
         pedido.setValorFrete(400);
@@ -402,8 +424,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMaiorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMaiorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(9000);
         pedido.setValorFrete(300);
@@ -431,12 +452,10 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.20 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
         assertEquals(1.085 * pedido.getValorFrete(), notaFiscal.getValorFrete());
-
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue5000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue5000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(4500);
         pedido.setValorFrete(300);
@@ -467,8 +486,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue1000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue1000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(900);
         pedido.setValorFrete(300);
@@ -500,8 +518,7 @@ class GeradorNotaFiscalServiceImplTest {
     }
 
     @Test
-    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue2000()
-            throws IllegalAccessException {
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealEValorTotalItensMenorQue2000() {
         Pedido pedido = new Pedido();
         pedido.setValorTotalItens(1900);
         pedido.setValorFrete(300);
@@ -529,7 +546,37 @@ class GeradorNotaFiscalServiceImplTest {
         assertEquals(1, notaFiscal.getItens().size());
         assertEquals(0.09 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
         assertEquals(1.085 * pedido.getValorFrete(), notaFiscal.getValorFrete());
+    }
 
+    @Test
+    void deveGerarNotaFiscalParaTipoPessoaJuridicaComRegimeTributacaoLucroRealComFinalidadeOutrosEFreteZerado() {
+        Pedido pedido = new Pedido();
+        pedido.setValorTotalItens(1900);
+        pedido.setValorFrete(300);
+        Destinatario destinatario = new Destinatario();
+        destinatario.setTipoPessoa(TipoPessoa.JURIDICA);
+        destinatario.setRegimeTributacao(RegimeTributacaoPJ.LUCRO_REAL);
+
+        // Create and add Endereco to the Destinatario
+        Endereco endereco = new Endereco();
+        endereco.setFinalidade(Finalidade.OUTROS);
+        endereco.setRegiao(Regiao.NORDESTE);
+        destinatario.setEnderecos(Arrays.asList(endereco));
+
+        pedido.setDestinatario(destinatario);
+
+        // Create and add items to the Pedido
+        Item item = new Item();
+        item.setValorUnitario(1900);
+        item.setQuantidade(1);
+        pedido.setItens(Arrays.asList(item));
+
+        NotaFiscal notaFiscal = geradorNotaFiscalService.gerarNotaFiscal(pedido);
+
+        assertEquals(pedido.getValorTotalItens(), notaFiscal.getValorTotalItens());
+        assertEquals(1, notaFiscal.getItens().size());
+        assertEquals(0.09 * item.getValorUnitario(), notaFiscal.getItens().get(0).getValorTributoItem());
+        assertEquals(0, notaFiscal.getValorFrete());
     }
 
 }
