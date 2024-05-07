@@ -1,26 +1,29 @@
 package br.com.itau.geradornotafiscal.domain.model.usecase;
 
-import br.com.itau.geradornotafiscal.domain.model.*;
-import br.com.itau.geradornotafiscal.domain.model.enums.RegimeTributacaoPJ;
 import br.com.itau.geradornotafiscal.aplication.service.CalculadoraAliquotaProduto;
+import br.com.itau.geradornotafiscal.domain.model.ItemNotaFiscal;
+import br.com.itau.geradornotafiscal.domain.model.Pedido;
+import br.com.itau.geradornotafiscal.domain.model.enums.RegimeTributacaoPJ;
+import br.com.itau.geradornotafiscal.framework.exceptions.RegimeTributarioInvalidoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class GerarNFPessoaJuridica extends GeradorNF {
+
+    Logger logger = LoggerFactory.getLogger(GerarNFPessoaJuridica.class);
+
     @Override
     public List<ItemNotaFiscal> calcularNF(Pedido pedido,
-                                           CalculadoraAliquotaProduto calculadoraAliquotaProduto)
-            throws IllegalAccessException {
-
+                                           CalculadoraAliquotaProduto calculadoraAliquotaProduto) {
         RegimeTributacaoPJ regimeTributacao = pedido.getDestinatario().getRegimeTributacao();
 
         GerarNFPessoaJuridica regime = getGeradorNFPorRegime(regimeTributacao);
         return regime.calcularNF(pedido, calculadoraAliquotaProduto);
-
     }
 
-    private GerarNFPessoaJuridica getGeradorNFPorRegime(RegimeTributacaoPJ regimeTributacaoPJ)
-            throws IllegalAccessException {
+    private GerarNFPessoaJuridica getGeradorNFPorRegime(RegimeTributacaoPJ regimeTributacaoPJ) {
         switch (regimeTributacaoPJ) {
             case SIMPLES_NACIONAL:
                 return new GerarNFPessoaJuridicaSimplesNacional();
@@ -29,7 +32,7 @@ public class GerarNFPessoaJuridica extends GeradorNF {
             case LUCRO_PRESUMIDO:
                 return new GerarNFPessoaJuridicaLucroPresumido();
             default:
-                throw new IllegalAccessException("Regime tributario invalido");
+                throw new RegimeTributarioInvalidoException("Regime tributario invalido");
         }
     }
 }

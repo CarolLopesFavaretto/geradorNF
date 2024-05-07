@@ -3,14 +3,12 @@ package br.com.itau.geradornotafiscal.domain.model;
 import br.com.itau.geradornotafiscal.domain.model.enums.TipoDocumento;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Documento {
 
     @JsonProperty("numero")

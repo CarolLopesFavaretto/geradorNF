@@ -3,10 +3,12 @@ package br.com.itau.geradornotafiscal.domain.model;
 import br.com.itau.geradornotafiscal.domain.model.enums.Finalidade;
 import br.com.itau.geradornotafiscal.domain.model.enums.Regiao;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

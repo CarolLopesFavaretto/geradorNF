@@ -12,6 +12,7 @@ import br.com.itau.geradornotafiscal.aplication.port.out.EntregaService;
 import br.com.itau.geradornotafiscal.aplication.port.out.EstoqueService;
 import br.com.itau.geradornotafiscal.aplication.port.out.FinanceiroService;
 import br.com.itau.geradornotafiscal.aplication.port.out.RegistroService;
+import br.com.itau.geradornotafiscal.framework.exceptions.TipoPessoaInvalidoException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,14 +69,14 @@ public class GeradorNotaFiscalServiceImpl implements GeradorNotaFiscalService {
         return notaFiscal;
     }
 
-    private GeradorNF getGeradorNFPorTipoPessoa(TipoPessoa tipoPessoa) throws IllegalAccessException {
+    private GeradorNF getGeradorNFPorTipoPessoa(TipoPessoa tipoPessoa) {
         switch (tipoPessoa) {
             case FISICA:
                 return new GerarNFPessoaFisica();
             case JURIDICA:
                 return new GerarNFPessoaJuridica();
             default:
-                throw new IllegalAccessException("Tipo invalido");
+                throw new TipoPessoaInvalidoException("Tipo de pessoa invalido");
         }
     }
 }
